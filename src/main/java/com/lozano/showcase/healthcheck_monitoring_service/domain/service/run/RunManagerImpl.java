@@ -58,14 +58,21 @@ public class RunManagerImpl implements RunManager{
                 log.info("Simulating run for HealthCheck ID {}", healthCheck.getId());
 
                 HealthCheckRunResponse runResponse = this.healthCheckClient.executeHttpRequestAndGetResponse(healthCheck);
-                //todo: mark/decide RunResultHealth
-                runResponse.setHealth(RunResultHealth.HEALTHY);
+                runResponse.setHealth(this.determineRunResultHealth(runResponse));
 
                 this.runResultManager.logRunResult(runResponse);
 
             }
         } else {
             log.warn("Run manager at stopped state - not running active HealthChecks.");
+        }
+    }
+
+    private RunResultHealth determineRunResultHealth(HealthCheckRunResponse runResponse){
+        if (runResponse.getHttpStatusCode()>=200 && runResponse.getHttpStatusCode()<300){
+            return RunResultHealth.HEALTHY;
+        } else {
+            return RunResultHealth.UNHEALTHY;
         }
     }
 }
