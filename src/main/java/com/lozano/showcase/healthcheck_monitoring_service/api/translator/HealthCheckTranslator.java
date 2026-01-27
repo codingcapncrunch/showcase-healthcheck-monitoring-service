@@ -31,6 +31,7 @@ public class HealthCheckTranslator extends Translator <HealthCheck, HealthCheckE
         healthCheck.setUrl(domain.getUrl());
         healthCheck.setActive(domain.isActive());
         healthCheck.setHttpMethod(HealthCheckHttpMethod.valueOf(domain.getHttpMethod()));
+        healthCheck.setAlertThreshold(domain.getAlertThreshold());
 
         Set<KeyValuePair> keyValuePairSet = new HashSet<>();
         if (domain.getParams()!=null){
@@ -58,6 +59,7 @@ public class HealthCheckTranslator extends Translator <HealthCheck, HealthCheckE
         healthCheckEntity.setUrl(api.getUrl());
         healthCheckEntity.setActive(api.isActive());
         healthCheckEntity.setHttpMethod(api.getHttpMethod().toString());
+        healthCheckEntity.setAlertThreshold(api.getAlertThreshold());
 
         Set<HealthCheckParamEntity> healthCheckParamEntities = new HashSet<>();
         if (api.getParams()!=null){

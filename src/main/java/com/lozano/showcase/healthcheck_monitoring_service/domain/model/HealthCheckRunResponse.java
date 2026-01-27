@@ -17,10 +17,11 @@ public class HealthCheckRunResponse {
     private LocalDateTime startDateTime;
     private long durationInMillis;
     private RunResultHealth health;
+    private Integer alertThreshold;
 
     public HealthCheckRunResponse(String healthCheckId, String url, Integer httpStatusCode, String responseBody,
                                   String errorMessage, LocalDateTime startDateTime, long durationInMillis,
-                                  RunResultHealth health) {
+                                  RunResultHealth health, Integer alertThreshold) {
         this.healthCheckId = healthCheckId;
         this.url = url;
         this.httpStatusCode = httpStatusCode;
@@ -29,6 +30,7 @@ public class HealthCheckRunResponse {
         this.startDateTime = startDateTime;
         this.durationInMillis = durationInMillis;
         this.health = health;
+        this.alertThreshold = alertThreshold;
     }
 
     public void setHealthCheckId(String healthCheckId) {
@@ -65,5 +67,9 @@ public class HealthCheckRunResponse {
 
     public void setHealth(RunResultHealth health) {
         this.health = health;
+    }
+
+    public void setAlertThreshold(Integer alertThreshold) {
+        this.alertThreshold = alertThreshold;
     }
 }

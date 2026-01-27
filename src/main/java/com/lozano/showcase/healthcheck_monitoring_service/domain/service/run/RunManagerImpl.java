@@ -4,6 +4,7 @@ import com.lozano.showcase.healthcheck_monitoring_service.api.model.RunStateEnum
 import com.lozano.showcase.healthcheck_monitoring_service.domain.model.HealthCheckEntity;
 import com.lozano.showcase.healthcheck_monitoring_service.domain.model.HealthCheckRunResponse;
 import com.lozano.showcase.healthcheck_monitoring_service.domain.model.RunResultHealth;
+import com.lozano.showcase.healthcheck_monitoring_service.domain.service.alert.AlertManager;
 import com.lozano.showcase.healthcheck_monitoring_service.domain.service.client.HealthCheckClient;
 import com.lozano.showcase.healthcheck_monitoring_service.domain.service.healthcheck.HealthCheckManager;
 import com.lozano.showcase.healthcheck_monitoring_service.domain.service.runresult.RunResultManager;
@@ -21,12 +22,14 @@ public class RunManagerImpl implements RunManager{
     private HealthCheckManager healthCheckManager;
     private RunStateEnum runState;
     private RunResultManager runResultManager;
+    private AlertManager alertManager;
 
     @Autowired
-    public RunManagerImpl(HealthCheckClient healthCheckClient, HealthCheckManager healthCheckManager, RunResultManager runResultManager) {
+    public RunManagerImpl(HealthCheckClient healthCheckClient, HealthCheckManager healthCheckManager, RunResultManager runResultManager, AlertManager alertManager) {
         this.healthCheckClient = healthCheckClient;
         this.healthCheckManager = healthCheckManager;
         this.runResultManager = runResultManager;
+        this.alertManager = alertManager;
         this.runState = RunStateEnum.RUNNING;
     }
 
@@ -59,8 +62,8 @@ public class RunManagerImpl implements RunManager{
 
                 HealthCheckRunResponse runResponse = this.healthCheckClient.executeHttpRequestAndGetResponse(healthCheck);
                 runResponse.setHealth(this.determineRunResultHealth(runResponse));
-
                 this.runResultManager.logRunResult(runResponse);
+                this.alertManager.notifyLatestRunResult(runResponse);
 
             }
         } else {

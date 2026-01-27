@@ -62,9 +62,9 @@ public class HealthCheckRestTemplateClient implements HealthCheckClient {
 
         }
         if (exception!=null){
-            return new HealthCheckRunResponse(healthCheckEntity.getId(), builder.toUriString(), httpStatusCode, null, exception.getMessage(), startDateTime, this.calculateDuration(startDateTime), null);
+            return new HealthCheckRunResponse(healthCheckEntity.getId(), builder.toUriString(), httpStatusCode, null, exception.getMessage(), startDateTime, this.calculateDuration(startDateTime), null, healthCheckEntity.getAlertThreshold());
         } else {
-            return new HealthCheckRunResponse(healthCheckEntity.getId(), builder.toUriString(), response.getStatusCode().value(), response.getBody(), null, startDateTime, this.calculateDuration(startDateTime), null);
+            return new HealthCheckRunResponse(healthCheckEntity.getId(), builder.toUriString(), response.getStatusCode().value(), response.getBody(), null, startDateTime, this.calculateDuration(startDateTime), null, healthCheckEntity.getAlertThreshold());
         }
 
     }

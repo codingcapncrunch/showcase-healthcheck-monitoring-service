@@ -15,6 +15,8 @@ public class HealthCheck {
 
     private HealthCheckHttpMethod httpMethod;
 
+    private Integer alertThreshold;
+
     private Set<KeyValuePair> params;
 
     private Set<KeyValuePair> headers;

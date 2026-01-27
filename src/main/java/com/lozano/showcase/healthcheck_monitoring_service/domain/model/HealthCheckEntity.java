@@ -27,6 +27,9 @@ public class HealthCheckEntity implements Serializable {
     @Column(name = "HTTP_METHOD")
     private String httpMethod;
 
+    @Column(name = "ALERT_THRESHOLD")
+    private Integer alertThreshold;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "HEALTHCHECK_ID", referencedColumnName = "HEALTHCHECK_ID")
     private Set<HealthCheckParamEntity> params;
